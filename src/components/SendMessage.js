@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
 import { auth, db } from '../firebase'
-import firebase from '@firebase/app-compat'
 
 function SendMessage() {
 
@@ -9,23 +8,22 @@ function SendMessage() {
 
     async function sendMessage(e) {
         e.preventDefault()
-        const { uid } = auth.currentUser
 
         await db.collection('messages').add({
             text: message,
-            uid,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            uid: auth.currentUser.uid,
+            timestamp: new Date(Date.now())
         })
 
         setMessage('')
     }
 
     return (
-        <Form onSubmit={sendMessage}>
+        <Form onSubmit={sendMessage} style={{ display: 'flex', justifyContent: 'right' }}>
             <Form.Group id="message" className="mt-2">
                 <Form.Control type="text" value={message} placeholder="Write a message..." onChange={e => setMessage(e.target.value)} />
             </Form.Group>
-            <Button type="submit" className="mt-2">Send</Button>
+            <Button type="submit" className="mt-2" style={{ width: '10%', marginLeft: '2vh' }}>Send</Button>
         </Form>
     )
 }

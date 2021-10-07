@@ -1,14 +1,12 @@
-*{
+*, html{
     width: 100%;
     align-content: center;
     margin: 0%;
     font-family: 'Inter', sans-serif;
     font-size: 2vh;
-    color: #170B4C
-}
-
-p{
-    font-weight: 500;
+    color: #170B4C;
+    background-color: rgba(250, 250, 250);
+    scroll-behavior: smooth;
 }
 
 h1{
@@ -22,33 +20,71 @@ h2{
     font-family: 'Nexa', sans-serif;
     font-weight: 700;
     letter-spacing: 0.1px;
-    font-size: 4vh
+    font-size: 5vh;
+    margin-top: 5vh;
 }
 
-.round-button{
-    padding: 0.7vh;
-    padding-top: 1vh;
-    padding-left: 2.3vh;
-    padding-right: 4vh;
+.signin{
+    padding: 1vh;
     text-align: center;
-    width: 5vh;
-    background-color: rgba(255, 14, 94, 0.123);
+    width: 15vh;
+    background-color: var(--bs-blue);
+    border-color: var(--bs-blue);
+    border-radius: 0.6vh;
+    font-size: 2vh;
+}
+
+.signup{
+    padding: 1vh;
+    text-align: center;
+    width: 15vh;
+    background-color: rgba(255, 255, 255, 0);
+    color: var(--bs-blue);
+    border-color: var(--bs-blue);
+    border-radius: 0.6vh;
+    font-size: 2vh;
+}
+
+.home{
+    text-align: left;
+    width: 20vh;
+    color:#170B4C
+}
+
+.home::after, .home:active{
+    box-shadow: none;
     border: none;
-    border-radius: 50%;
-    font-size: 3vh;
-    font-weight: 700;
+}
+
+.container{
+    text-align: center;
+    max-width: 35%;
+    margin: auto;
 }
 
 .card{
     border: none;
     padding: 5vh;
-    background-color: rgba(245, 245, 245, 0.329);
+    background-color: rgba(250, 250, 250);
+}
+
+.icon{
+    background: transparent;
+    text-decoration-color: white
+}
+
+.chat{
+    height: 70vh;
+    overflow-y: scroll;
+    margin-top: 3vh;
+    margin-bottom: 3vh;
 }
 
 .quote {
     display: flex;
     width: 50%;
     margin: 2ex 1em;
+    background-color: transparent;
 }
 
 .quote p {
@@ -56,6 +92,7 @@ h2{
     width: 100%;
     display: flex;
     justify-content: space-between;
+    background-color: transparent;
 }
 
 .quote p .time-ago {
@@ -63,12 +100,15 @@ h2{
     font-size: 90%;
     color: tint(#2d4154, 40%);
     text-align: right;
+    background-color: transparent;
 }
 
 .quote blockquote {
     color: tint(#2d4154, 20%);
     margin: 0;
     margin-top: 1vh;
+    text-align: left;
+    background-color: transparent;
 }
 
 .quote .round-avatar {
@@ -102,7 +142,6 @@ h2{
     margin-right: 4px;
     margin-bottom: 4px;
     padding: 1ex 1em;
-    background: #fdfdfe;
     float: left;
 }
 
@@ -115,7 +154,6 @@ h2{
     margin-left: 4px;
     margin-bottom: 4px;
     padding: 1ex 1em;
-    background: #fdfdfe;
     float: right;
 }
 
@@ -178,4 +216,5 @@ h2{
 .quote .speech-bubble p {
     line-height: 1.3em;
     margin: 0;
+    background-color: transparent;
 }

@@ -19,7 +19,7 @@ function SignOut() {
             setError('')
             setLoading(true)
             await signOut()
-            history.push('/signin')
+            history.push('/')
         } catch (err) {
             setError('Failed to sign out')
             console.log(err)
@@ -32,7 +32,9 @@ function SignOut() {
     return (
         <>
             {error && <Alert variant="danger">{error}</Alert>}
-            <Button onClick={handleSubmit} disabled={loading} className="w-100 mt-4">Sign Out</Button>
+            <Button className="btn btn-light home" onClick={handleSubmit} disabled={loading}>
+                <strong>&lt;</strong> Back to Home
+            </Button>
         </>
     )
 }

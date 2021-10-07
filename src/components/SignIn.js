@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react'
 import { Form, Button, Card, Alert } from 'react-bootstrap'
 import { useAuth } from '../context/AuthContext'
 import { Link, useHistory } from 'react-router-dom'
+import SignOut from './SignOut'
+import { auth } from '../firebase'
 
 function SignIn() {
 
@@ -27,41 +29,32 @@ function SignIn() {
         }
 
         setLoading(false)
+        console.log(auth.currentUser.uid)
 
     }
 
     return (
-        <div style={{
-            backgroundImage: `url('gradients/gradient-1.jpg')`,
-            backgroundPosition: 'center',
-            backgroundSize: 'cover',
-            backgroundRepeat: 'no-repeat',
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-            top: '0%',
-            left: '0%',
-            textAlign: 'center'
-        }}>
-            <div style={{ position: 'relative', top: '30%', width: '35%', margin: 'auto' }}>
-                <Card className="card">
-                    <Card.Body>
-                        <h2 className="text-center mb-4">Sign In</h2>
-                        {error && <Alert variant="danger">{error}</Alert>}
-                        <Form onSubmit={handleSubmit}>
-                            <Form.Group id="email" className="mt-2">
-                                <Form.Control className="input" type="email" placeholder="Email" ref={emailRef} required />
-                            </Form.Group>
-                            <Form.Group id="password" className="mt-2">
-                                <Form.Control className="input" type="password" placeholder="Password" ref={passwordRef} required />
-                            </Form.Group>
-                            <Button disabled={loading} className="w-100 mt-4" type="submit">Sign In</Button>
-                        </Form>
-                    </Card.Body>
-                </Card>
-                <div className="w-100 text-center mt-2">
-                    Don't have an account? <Link to="/signup">Sign Up</Link>
+        <div className="container">
+            <Card className="card">
+                <div style={{ display: 'flex' }}>
+                    <SignOut />
                 </div>
+                <Card.Body>
+                    <h2 className="text-center mb-5">Sign In</h2>
+                    {error && <Alert variant="danger">{error}</Alert>}
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Group id="email" className="mt-2">
+                            <Form.Control className="input" type="email" placeholder="Email" ref={emailRef} required />
+                        </Form.Group>
+                        <Form.Group id="password" className="mt-2">
+                            <Form.Control className="input" type="password" placeholder="Password" ref={passwordRef} required />
+                        </Form.Group>
+                        <Button disabled={loading} className="w-100 mt-4" type="submit">Sign In</Button>
+                    </Form>
+                </Card.Body>
+            </Card>
+            <div className="w-100 text-center mt-2" style={{ marginBottom: '10%' }}>
+                Don't have an account? <Link to="/signup">Sign Up</Link>
             </div>
         </div >
     );

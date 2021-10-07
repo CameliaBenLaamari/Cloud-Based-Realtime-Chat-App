@@ -5,25 +5,39 @@ import SignOut from './SignOut'
 
 function Chat() {
 
+    var i = 0
     const [messages, setMessages] = useState([])
 
-    async function fetchData() {
+    async function fetchMessages() {
         const data = await db.collection('messages').orderBy('timestamp').limit(50).get()
-        setMessages(data.docs.map(doc => doc.data()))
+        return data.docs.map(snapshot => snapshot.data())
     }
 
-    useEffect(() => {
+    async function fetchUserById(uid) {
+        const data = await db.collection('users').get()
+        return data.docs.filter(snapshot => snapshot.id == uid)[0].data()
+    }
+
+    async function fetchData() {
+        const messages = await fetchMessages()
+        const userPromises = messages.map(message => fetchUserById(message.uid))
+        const users = await Promise.all(userPromises)
+        setMessages(messages.map((message, index) => ({ ...message, displayName: users[index].displayName, photoURL: users[index].photoURL })))
+    }
+
+    useEffect(async () => {
         try {
             fetchData()
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err)
         }
-    })
+    }, [])
 
     function getTime(timestamp) {
         var a = new Date(timestamp * 1000);
         var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        var year = a.getFullYear();
+        var year = a.getYear() - 69;
         var month = months[a.getMonth()];
         var date = a.getDate();
         var hour = a.getHours();
@@ -35,31 +49,33 @@ function Chat() {
     return (
         <>
             <SignOut />
-
-            {messages.map(({ text, uid, photoURL, timestamp }) => (
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'center'
-                }}>
-                    <div className='quote'>
-                        <img className={`round-avatar ${uid === auth.currentUser.uid ? "hidden" : "left"}`} src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/250px-Image_created_with_a_mobile_phone.png' alt="User Photo" />
-                        <div className={`speech-bubble ${uid === auth.currentUser.uid ? "right" : "left"}`}>
-                            <p>
-                                {uid}
-                                <span className='time-ago'>
-                                    {getTime(timestamp)}
-                                </span>
-                            </p>
-                            <blockquote>
-                                {text}
-                            </blockquote>
+            <div className="chat">
+                {messages && messages.length > 0 && messages.map(({ text, timestamp, uid, displayName, photoURL }) => (
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'center'
+                    }} key={i++}>
+                        <div className='quote'>
+                            <img className={`round-avatar ${uid === auth.currentUser.uid ? "hidden" : "left"}`} src={photoURL} alt="" />
+                            <div className={`speech-bubble ${uid === auth.currentUser.uid ? "right" : "left"}`}>
+                                <p>
+                                    {displayName}
+                                    <span className='time-ago'>
+                                        {getTime(timestamp)}
+                                    </span>
+                                </p>
+                                <blockquote>
+                                    {text}
+                                </blockquote>
+                            </div>
+                            <img className={`round-avatar ${uid === auth.currentUser.uid ? "right" : "hidden"}`} src={auth.currentUser.photoURL} alt="" />
                         </div>
-                        <img className={`round-avatar ${uid === auth.currentUser.uid ? "right" : "hidden"}`} src='https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/250px-Image_created_with_a_mobile_phone.png' alt="User Photo" />
                     </div>
-                </div>
-            ))}
-
-            <SendMessage />
+                ))}
+            </div>
+            <div style={{ margin: 'auto', width: '50%' }}>
+                <SendMessage />
+            </div>
         </>
     )
 }

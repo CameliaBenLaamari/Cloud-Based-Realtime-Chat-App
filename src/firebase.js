@@ -1,8 +1,8 @@
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
-import 'firebase/compat/firestore';
+import 'firebase/compat/firestore'
 
-const app = firebase.initializeApp({
+const firebaseConfig = {
     apiKey: "AIzaSyAATaiC_MEikt3iPXM4uiRj2VIw83-Y-48",
     authDomain: "chat-app-1ef7a.firebaseapp.com",
     projectId: "chat-app-1ef7a",
@@ -10,8 +10,11 @@ const app = firebase.initializeApp({
     messagingSenderId: "1042268602954",
     appId: "1:1042268602954:web:aa72c2b0236d0d47521cb3",
     measurementId: "G-B017L9YWQR"
-});
+}
 
-export const auth = app.auth();
-export const db = app.firestore();
-export default app;
+const app = firebase.initializeApp(firebaseConfig)
+
+export const auth = app.auth()
+export const db = app.firestore()
+firebase.firestore().settings({ experimentalForceLongPolling: true })
+export default app
