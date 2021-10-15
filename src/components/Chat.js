@@ -15,7 +15,7 @@ function Chat() {
 
     async function fetchUserById(uid) {
         const data = await db.collection('users').get()
-        return data.docs.filter(snapshot => snapshot.id == uid)[0].data()
+        return data.docs.filter(snapshot => snapshot.id === uid)[0].data()
     }
 
     async function fetchData() {
