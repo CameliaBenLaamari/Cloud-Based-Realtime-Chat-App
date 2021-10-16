@@ -32,9 +32,7 @@ function SignOut() {
     return (
         <>
             {error && <Alert variant="danger">{error}</Alert>}
-            <Button className="btn btn-light home" onClick={handleSubmit} disabled={loading}>
-                <strong>&lt;</strong> Back to Home
-            </Button>
+            <Button disabled={loading} className="mt-2 mb-2" style={{ backgroundColor: '#212529', border: 'none', width: '15vh' }} onClick={handleSubmit}>Sign Out</Button>
         </>
     )
 }
